@@ -1,5 +1,5 @@
-import Image from 'next/image'
-// 41:09
+import Image from "next/image"
+
 import {
   BellIcon,
   ChatIcon,
@@ -7,16 +7,19 @@ import {
   PlusIcon,
   SparklesIcon,
   SpeakerphoneIcon,
-  VideoCameraIcon,
-} from '@heroicons/react/outline'
+  VideoCameraIcon
+} from "@heroicons/react/outline"
 import {
   ChevronDownIcon,
   HomeIcon,
   MenuIcon,
-  SearchIcon,
-} from '@heroicons/react/solid'
+  SearchIcon
+} from "@heroicons/react/solid"
+import { signIn, signOut, useSession } from "next-auth/react"
 
 const Header = () => {
+  const { data: session } = useSession()
+
   return (
     <div className="flex bg-white shadow px-4 py-2 sticky top-0 z-50">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
@@ -28,8 +31,8 @@ const Header = () => {
         />
       </div>
 
-      <div className="flex items-center mx-7">
-        <HomeIcon className="h-5 w-5" />
+      <div className="flex items-center mx-7 xl:min-w-[300px]">
+        <HomeIcon className="h-5 w-5 lg:h-7 lg:w-7" />
         <p className="ml-2 hidden flex-1 lg:inline">Home</p>
         <ChevronDownIcon className="h-5 w-5" />
       </div>
@@ -58,13 +61,26 @@ const Header = () => {
         <MenuIcon className="icon" />
       </div>
 
-      <div className="relative cursor-pointer h-8 w-8 flex-shrink-0">
-        <Image
-          src="https://links.papareact.com/23l"
-          layout="fill"
-          className="opacity-75"
-          alt=""
-        />
+      <div
+        onClick={() => (session ? signOut() : signIn())}
+        className="hidden cursor-pointer items-center lg:flex space-x-2 border border-gray-100 p-2"
+      >
+        <div className="relative h-5 w-5 flex-shrink-0">
+          <Image
+            src="https://links.papareact.com/23l"
+            objectFit="contain"
+            layout="fill"
+            className="opacity-75"
+            alt=""
+          />
+        </div>
+        <div className="flex-1 text-xs">
+          <p className="text-gray-400 truncate">
+            {session ? session?.user?.name : "Sign In"}
+          </p>
+        </div>
+        {/* <p className="text-gray-400">{session ? 'Sign out':'Sign In'}</p> */}
+        <ChevronDownIcon className="h-5 w-5 text-gray-400" />
       </div>
     </div>
   )

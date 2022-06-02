@@ -9,8 +9,6 @@ const Home: NextPage = () => {
         <title>Reddit</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-
-      <Header />
     </div>
   )
 }
